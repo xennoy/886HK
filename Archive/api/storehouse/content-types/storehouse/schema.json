@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "storehouses",
+  "info": {
+    "singularName": "storehouse",
+    "pluralName": "storehouses",
+    "displayName": "storehouse",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "stocks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::stock.stock",
+      "mappedBy": "storehouse"
+    },
+    "contact_person": {
+      "type": "string"
+    },
+    "phone_no": {
+      "type": "string"
+    },
+    "address": {
+      "type": "text"
+    },
+    "broken_products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::broken-product.broken-product",
+      "mappedBy": "storehouse"
+    },
+    "facebook": {
+      "type": "string"
+    }
+  }
+}

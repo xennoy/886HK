@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "members",
+  "info": {
+    "singularName": "member",
+    "pluralName": "members",
+    "displayName": "member",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "member_id": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "phone_no": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "sex": {
+      "type": "enumeration",
+      "enum": [
+        "M",
+        "F"
+      ]
+    },
+    "birthdate": {
+      "type": "date"
+    },
+    "create_date": {
+      "type": "date"
+    },
+    "address": {
+      "type": "text"
+    },
+    "remarks": {
+      "type": "text"
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "member"
+    },
+    "member_level": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::member-level.member-level",
+      "inversedBy": "members"
+    }
+  }
+}

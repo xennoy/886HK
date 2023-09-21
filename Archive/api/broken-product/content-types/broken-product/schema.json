@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "broken_products",
+  "info": {
+    "singularName": "broken-product",
+    "pluralName": "broken-products",
+    "displayName": "broken_product",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date": {
+      "type": "date"
+    },
+    "remarks": {
+      "type": "text"
+    },
+    "product": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product.product",
+      "inversedBy": "broken_products"
+    },
+    "storehouse": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::storehouse.storehouse",
+      "inversedBy": "broken_products"
+    },
+    "quantity": {
+      "type": "integer",
+      "default": 0
+    },
+    "variation": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::variation.variation"
+    }
+  }
+}

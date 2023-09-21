@@ -1,0 +1,81 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "product",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "product_id": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "create_date": {
+      "type": "date"
+    },
+    "labels": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::label.label",
+      "mappedBy": "products"
+    },
+    "remarks": {
+      "displayName": "remarks",
+      "type": "component",
+      "repeatable": true,
+      "component": "remarks.remarks"
+    },
+    "stocks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::stock.stock",
+      "mappedBy": "product"
+    },
+    "restocks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::restock.restock",
+      "mappedBy": "product"
+    },
+    "broken_products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::broken-product.broken-product",
+      "mappedBy": "product"
+    },
+    "new_restock_date": {
+      "type": "datetime"
+    },
+    "new_lowest_price": {
+      "type": "decimal"
+    },
+    "new_selling_price": {
+      "type": "decimal"
+    },
+    "average_restock_price": {
+      "type": "decimal"
+    },
+    "variations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::variation.variation",
+      "mappedBy": "product"
+    },
+    "supplier": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::supplier.supplier"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_restock_restock_distributes",
+  "info": {
+    "displayName": "restock_distribute",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "storehouse": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::storehouse.storehouse"
+    },
+    "variation": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::variation.variation"
+    },
+    "quantity": {
+      "type": "integer"
+    }
+  }
+}

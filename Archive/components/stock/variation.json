@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_stock_variations",
+  "info": {
+    "displayName": "variation",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "variation": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::variation.variation"
+    },
+    "quantity": {
+      "type": "integer"
+    }
+  }
+}

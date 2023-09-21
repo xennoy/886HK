@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_order_ordered_products",
+  "info": {
+    "displayName": "ordered_product",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "product": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::product.product"
+    },
+    "selling_price": {
+      "type": "decimal"
+    },
+    "discount_deduction": {
+      "type": "decimal"
+    },
+    "quantity": {
+      "type": "integer"
+    },
+    "total_price": {
+      "type": "decimal"
+    },
+    "refunded_quantity": {
+      "type": "integer",
+      "default": 0
+    },
+    "average_restock_price": {
+      "type": "decimal"
+    },
+    "profit": {
+      "type": "decimal"
+    },
+    "variation": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::variation.variation"
+    },
+    "refunded_price": {
+      "type": "decimal"
+    }
+  }
+}

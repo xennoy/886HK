@@ -1,0 +1,84 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "singularName": "order",
+    "pluralName": "orders",
+    "displayName": "order",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "order_id": {
+      "type": "string"
+    },
+    "cashier": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "member": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::member.member",
+      "inversedBy": "orders"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "paid",
+        "done",
+        "not_paid",
+        "partially_refunded",
+        "refunded",
+        "canceled"
+      ]
+    },
+    "ordered_product": {
+      "displayName": "ordered_product",
+      "type": "component",
+      "repeatable": true,
+      "component": "order.ordered-product"
+    },
+    "discount": {
+      "displayName": "discount",
+      "type": "component",
+      "repeatable": true,
+      "component": "order.discount"
+    },
+    "total_price": {
+      "type": "decimal"
+    },
+    "order_date": {
+      "type": "datetime"
+    },
+    "member_level": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::member-level.member-level"
+    },
+    "refunded_remarks": {
+      "type": "text"
+    },
+    "total_profit": {
+      "type": "decimal"
+    },
+    "total_refunded_price": {
+      "type": "decimal"
+    },
+    "payment_method": {
+      "displayName": "payment_method",
+      "type": "component",
+      "repeatable": true,
+      "component": "order.payment-method"
+    },
+    "order_shop": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::storehouse.storehouse"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_order_discounts",
+  "info": {
+    "displayName": "discount"
+  },
+  "options": {},
+  "attributes": {
+    "type": {
+      "type": "string"
+    },
+    "discount_deduction": {
+      "type": "decimal"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_translation_translations",
+  "info": {
+    "displayName": "translation"
+  },
+  "options": {},
+  "attributes": {
+    "language_key": {
+      "type": "string"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "translation_uuid": {
+      "type": "string"
+    }
+  }
+}

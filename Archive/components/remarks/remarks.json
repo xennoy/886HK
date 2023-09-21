@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_remarks_remarks",
+  "info": {
+    "displayName": "remarks"
+  },
+  "options": {},
+  "attributes": {
+    "content": {
+      "type": "text"
+    }
+  }
+}

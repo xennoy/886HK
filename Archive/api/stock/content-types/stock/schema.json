@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "stocks",
+  "info": {
+    "singularName": "stock",
+    "pluralName": "stocks",
+    "displayName": "stock",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "quantity": {
+      "type": "integer",
+      "default": 0
+    },
+    "storehouse": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::storehouse.storehouse",
+      "inversedBy": "stocks"
+    },
+    "product": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product.product",
+      "inversedBy": "stocks"
+    },
+    "variation": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::variation.variation",
+      "inversedBy": "stocks"
+    }
+  }
+}

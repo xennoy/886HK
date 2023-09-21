@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "wc_countries",
+  "info": {
+    "singularName": "wc-country",
+    "pluralName": "wc-countries",
+    "displayName": "wc_country"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "isIncluded": {
+      "type": "boolean"
+    },
+    "translation": {
+      "type": "json"
+    }
+  }
+}

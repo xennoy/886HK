@@ -1,0 +1,11 @@
+'use strict';
+
+/**
+ * supplier router
+ */
+
+const { createCoreRouter } = require('@strapi/strapi').factories;
+
+module.exports = createCoreRouter('api::supplier.supplier',{
+    except: ['update', 'delete'],
+});

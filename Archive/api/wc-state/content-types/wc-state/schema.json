@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "wc_states",
+  "info": {
+    "singularName": "wc-state",
+    "pluralName": "wc-states",
+    "displayName": "wc_state",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "isIncluded": {
+      "type": "boolean"
+    },
+    "translation": {
+      "type": "json"
+    },
+    "country": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::wc-country.wc-country"
+    }
+  }
+}

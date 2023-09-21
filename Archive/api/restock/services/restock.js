@@ -1,0 +1,9 @@
+'use strict';
+
+/**
+ * restock service
+ */
+
+const { createCoreService } = require('@strapi/strapi').factories;
+
+module.exports = createCoreService('api::restock.restock');

@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "restocks",
+  "info": {
+    "singularName": "restock",
+    "pluralName": "restocks",
+    "displayName": "restock",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "restock_date": {
+      "type": "datetime"
+    },
+    "restock_price": {
+      "type": "decimal",
+      "default": 0
+    },
+    "lowest_price": {
+      "type": "decimal",
+      "default": 0
+    },
+    "selling_price": {
+      "type": "decimal",
+      "default": 0
+    },
+    "quantity": {
+      "type": "integer",
+      "default": 0
+    },
+    "supplier": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::supplier.supplier"
+    },
+    "restock_distribute": {
+      "displayName": "restock_distribute",
+      "type": "component",
+      "repeatable": true,
+      "component": "restock.restock-distribute"
+    },
+    "product": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product.product",
+      "inversedBy": "restocks"
+    }
+  }
+}

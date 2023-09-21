@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "member_levels",
+  "info": {
+    "singularName": "member-level",
+    "pluralName": "member-levels",
+    "displayName": "member_level"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "discount": {
+      "type": "float"
+    },
+    "members": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::member.member",
+      "mappedBy": "member_level"
+    }
+  }
+}
