@@ -14,9 +14,7 @@ module.exports = createCoreController('api::member.member', ({ strapi }) => ({
             'phone_no',
             'sex',
             'birthdate',
-            'member_id',
-            'level',
-            'discount'
+            'member_id'
         ]
         ctx.query.populate = {
             member_level: true
