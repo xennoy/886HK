@@ -162,7 +162,7 @@ module.exports = (plugin) => {
       email === undefined || email === "" || 
       phone_no === undefined || phone_no === "" || 
       password === undefined || password === "" || 
-      // storehouse === undefined || storehouse === "" || 
+      storehouse === undefined || storehouse === "" || 
       isAdmin === undefined){
         var returner = {
           "status": 604,
@@ -187,7 +187,7 @@ module.exports = (plugin) => {
       password: password,
       name: name,
       phone_no: phone_no,
-      storehouse: findStorehouse,
+      storehouse: findStorehouse.id,
       role: findRole,
       confirmed: true,
       blocked: false
@@ -195,8 +195,19 @@ module.exports = (plugin) => {
 
     // console.log(input)
 
-    // await axios.post('http://localhost:1337/api/auth/local/register', input)
-    await axios.post('http://127.0.0.1:1337/api/auth/local/register', input)
+    try{
+      // await axios.post('http://localhost:1337/api/auth/local/register', input)
+      var result = await axios.post('http://127.0.0.1:1337/api/auth/local/register', input)
+    }catch{
+      console.log(result)
+      var returner = {
+        "status": 400,
+        "message": "Request failed with status code 400"
+      }
+      ctx.response.status = returner.status
+      return returner
+    }
+    
 
     var returner = {
       "status": 200,
