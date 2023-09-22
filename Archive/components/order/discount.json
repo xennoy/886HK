@@ -1,7 +1,8 @@
 {
   "collectionName": "components_order_discounts",
   "info": {
-    "displayName": "discount"
+    "displayName": "discount",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -9,7 +10,8 @@
       "type": "string"
     },
     "discount_deduction": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     }
   }
 }

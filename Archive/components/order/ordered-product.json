@@ -12,26 +12,32 @@
       "target": "api::product.product"
     },
     "selling_price": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     },
     "discount_deduction": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     },
     "quantity": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     },
     "total_price": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     },
     "refunded_quantity": {
       "type": "integer",
       "default": 0
     },
     "average_restock_price": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     },
     "profit": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     },
     "variation": {
       "type": "relation",
@@ -39,7 +45,8 @@
       "target": "api::variation.variation"
     },
     "refunded_price": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     }
   }
 }
