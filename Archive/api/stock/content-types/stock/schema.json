@@ -16,16 +16,16 @@
       "type": "integer",
       "default": 0
     },
-    "storehouse": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::storehouse.storehouse",
-      "inversedBy": "stocks"
-    },
     "product": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::product.product",
+      "inversedBy": "stocks"
+    },
+    "storehouse": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::storehouse.storehouse",
       "inversedBy": "stocks"
     },
     "variation": {

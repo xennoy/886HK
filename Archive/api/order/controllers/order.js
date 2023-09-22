@@ -648,5 +648,5 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
         }
         ctx.response.status = returner.status
         return returner
-    },
+    }
 }));

@@ -132,7 +132,12 @@ module.exports = createCoreController('api::product.product', ({ strapi }) => ({
             variations: true
         }
 
-        ctx.query.filters = {id: ctx.params.id}
+        ctx.query.filters = {
+            $or: [
+                {id: ctx.params.id},
+                {product_id: ctx.params.id}
+            ]
+        }
 
         var { data, meta } = await super.find(ctx);
         data = data[0]

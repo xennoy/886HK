@@ -6,4 +6,4 @@
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::order.order', ({ strapi }) => ({}));
+module.exports = createCoreService('api::order.order');

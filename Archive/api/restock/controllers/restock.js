@@ -38,11 +38,30 @@ module.exports = createCoreController('api::restock.restock', ({ strapi }) => ({
         }
         // console.log("check 1")
 
+        var findProduct = await strapi.db.query('api::product.product').findOne({ 
+            where: {
+                product_id: product
+            },
+            populate: {
+                restocks: true
+            }
+        })
+        if(findProduct === undefined || findProduct === null){
+            var returner = {
+                "status": 604,
+                "message": "This product_id does not exist!"
+            }
+            ctx.response.status = returner.status
+            return returner
+        }
+
+        // console.log("check 2")
+
         var checkQuantity = 0
         for(var eachDistribute of restock_distribute){
             checkQuantity += parseInt(eachDistribute.quantity)
         }
-        console.log(checkQuantity)
+        // console.log(checkQuantity)
         if(lowest_price > selling_price){
             // console.log("error 1")
             var returner = {
@@ -52,7 +71,7 @@ module.exports = createCoreController('api::restock.restock', ({ strapi }) => ({
             ctx.response.status = returner.status
             return returner
         }
-        // console.log("check 2")
+        // console.log("check 3")
 
         var input = {
             restock_date: restock_date,
@@ -61,50 +80,40 @@ module.exports = createCoreController('api::restock.restock', ({ strapi }) => ({
             lowest_price: lowest_price,
             selling_price: selling_price,
             restock_distribute: restock_distribute,
-            product: product,
+            product: findProduct.id,
             supplier: supplier
         }
-        // console.log("check 3")
+        // console.log("check 4")
 
         var updatedStockList = []
         for(var eachDistribute of restock_distribute){
             var findStock = await strapi.db.query('api::stock.stock').findOne({ 
                 where: {
-                    product: product,
+                    product: findProduct.id,
                     variation: eachDistribute.variation,
                     storehouse: eachDistribute.storehouse
                 }
             })
 
+            // console.log(findStock)
             var updateStock = {
                 id: findStock.id,
                 quantity: findStock.quantity + eachDistribute.quantity,
             }
             updatedStockList.push(updateStock)
         }
-        // console.log("check 4")
-
-
-        var findProduct = await strapi.db.query('api::product.product').findOne({ 
-            where: {
-                id: product,
-            },
-            populate: {
-                restocks: true
-            }
-        })
         // console.log("check 5")
 
         var average_restock_price
-        var totalRestockPrice = parseFloat(restock_price)
+        var totalRestockPrice = parseFloat(parseFloat(restock_price).toFixed(2))
         var restockCount = 1
         // console.log(totalRestockPrice)
         for(var eachRestock of findProduct.restocks){
-            totalRestockPrice += parseFloat(eachRestock.restock_price)
+            totalRestockPrice += parseFloat(parseFloat(eachRestock.restock_price).toFixed(2))
             restockCount ++
             // console.log(totalRestockPrice)
         }
-        average_restock_price = (totalRestockPrice / restockCount).toFixed(2)
+        average_restock_price = parseFloat((totalRestockPrice / restockCount).toFixed(2))
         // console.log(average_restock_price)
         // console.log("check 6")
 

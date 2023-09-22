@@ -58,13 +58,16 @@
       "type": "datetime"
     },
     "new_lowest_price": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     },
     "new_selling_price": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     },
     "average_restock_price": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     },
     "variations": {
       "type": "relation",

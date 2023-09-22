@@ -36,12 +36,8 @@ module.exports = createCoreController('api::label.label', ({ strapi }) => ({
 
         ctx.query.filters = {id: ctx.params.id}
 
-        // console.log(ctx.query)
-
         var { data, meta } = await super.find(ctx);
         data = data[0]
-
-        // console.log(data)
 
         // some more logic
 

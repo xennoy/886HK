@@ -50,7 +50,8 @@
       "component": "order.discount"
     },
     "total_price": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     },
     "order_date": {
       "type": "datetime"
@@ -64,10 +65,12 @@
       "type": "text"
     },
     "total_profit": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     },
     "total_refunded_price": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     },
     "payment_method": {
       "displayName": "payment_method",
