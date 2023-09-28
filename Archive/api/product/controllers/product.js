@@ -14,7 +14,9 @@ module.exports = createCoreController('api::product.product', ({ strapi }) => ({
             'product_id',
             'name',
             'new_restock_date',
-            'average_restock_price'
+            'average_restock_price',
+            'new_lowest_price',
+            'new_selling_price'
         ]
 
         ctx.query.populate = {
