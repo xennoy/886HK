@@ -22,7 +22,7 @@ module.exports = createCoreController('api::restock.restock', ({ strapi }) => ({
         
         if(
             product === undefined || product === null || product === "" ||
-            supplier === undefined || supplier === null || supplier === "" ||
+            // supplier === undefined || supplier === null || supplier === "" ||
             restock_price === undefined || restock_price === null || restock_price === "" ||
             lowest_price === undefined || lowest_price === null || lowest_price === "" ||
             selling_price === undefined || selling_price === null || selling_price === "" ||
