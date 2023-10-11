@@ -56,7 +56,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 ctx.query.filters.order_date.$lte = ctx.query.endDate
             }
         }
-        if(ctx.query.filters.order_date === {}){
+        if(Object.keys(ctx.query.filters.order_date).length === 0){
             delete ctx.query.filters.order_date
         }
 
@@ -395,6 +395,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
         // console.log(ctx.query)
 
         ctx.query.filters = {}
+        ctx.query.filters.order_date = {}
         if(!(ctx.query.time_period === undefined || ctx.query.time_period === null || ctx.query.time_period === '')) {
             var currentDate = new Date()
             currentDate.setDate(currentDate.getDate() - parseInt(ctx.query.time_period))
@@ -403,15 +404,17 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             let year = currentDate.getFullYear();   
             var period_date = year + '-' + month + '-' + day
 
-            ctx.query.filters.order_date = {$gte: period_date}
+            ctx.query.filters.order_date.$gte = period_date
         } else {
-            ctx.query.filters.order_date = {}
             if(!(ctx.query.startDate === undefined || ctx.query.startDate === null || ctx.query.startDate === '')) {
                 ctx.query.filters.order_date.$gte = ctx.query.startDate
             }
             if(!(ctx.query.endDate === undefined || ctx.query.endDate === null || ctx.query.endDate === '')) {
                 ctx.query.filters.order_date.$lte = ctx.query.endDate
             }
+        }
+        if(Object.keys(ctx.query.filters.order_date).length === 0){
+            delete ctx.query.filters.order_date
         }
 
         if(!(ctx.query.status === undefined || ctx.query.status === null || ctx.query.status === '')) {
