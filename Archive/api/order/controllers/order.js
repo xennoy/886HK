@@ -53,7 +53,13 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 ctx.query.filters.order_date.$gte = ctx.query.startDate
             }
             if(!(ctx.query.endDate === undefined || ctx.query.endDate === null || ctx.query.endDate === '')) {
-                ctx.query.filters.order_date.$lte = ctx.query.endDate
+                var currentDate = new Date(ctx.query.endDate)
+                currentDate.setDate(currentDate.getDate() + 1)
+                let day = ("0" + currentDate.getDate()).slice(-2);
+                let month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+                let year = currentDate.getFullYear();  
+                var end_date = year + '-' + month + '-' + day
+                ctx.query.filters.order_date.$lte = end_date
             }
         }
         if(Object.keys(ctx.query.filters.order_date).length === 0){
@@ -410,7 +416,13 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 ctx.query.filters.order_date.$gte = ctx.query.startDate
             }
             if(!(ctx.query.endDate === undefined || ctx.query.endDate === null || ctx.query.endDate === '')) {
-                ctx.query.filters.order_date.$lte = ctx.query.endDate
+                var currentDate = new Date(ctx.query.endDate)
+                currentDate.setDate(currentDate.getDate() + 1)
+                let day = ("0" + currentDate.getDate()).slice(-2);
+                let month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+                let year = currentDate.getFullYear();  
+                var end_date = year + '-' + month + '-' + day
+                ctx.query.filters.order_date.$lte = end_date
             }
         }
         if(Object.keys(ctx.query.filters.order_date).length === 0){
