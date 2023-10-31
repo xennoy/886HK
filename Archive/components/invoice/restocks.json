@@ -1,0 +1,44 @@
+{
+  "collectionName": "components_invoice_restocks",
+  "info": {
+    "displayName": "restocks",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "restock": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::restock.restock"
+    },
+    "unit_price": {
+      "type": "decimal"
+    },
+    "discount": {
+      "type": "decimal"
+    },
+    "net_price": {
+      "type": "decimal"
+    },
+    "total_amount": {
+      "type": "decimal"
+    },
+    "product": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::product.product"
+    },
+    "variations": {
+      "displayName": "variation",
+      "type": "component",
+      "repeatable": true,
+      "component": "invoice.variation"
+    },
+    "lowest_price": {
+      "type": "decimal"
+    },
+    "selling_price": {
+      "type": "decimal"
+    }
+  }
+}

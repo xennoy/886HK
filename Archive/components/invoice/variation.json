@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_invoice_variations",
+  "info": {
+    "displayName": "variation"
+  },
+  "options": {},
+  "attributes": {
+    "variation": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::variation.variation"
+    },
+    "quantity": {
+      "type": "integer"
+    }
+  }
+}
