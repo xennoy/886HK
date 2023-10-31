@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "invoices",
+  "info": {
+    "singularName": "invoice",
+    "pluralName": "invoices",
+    "displayName": "invoice",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "supplier": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::supplier.supplier"
+    },
+    "date": {
+      "type": "date"
+    },
+    "invoice_address": {
+      "type": "text"
+    },
+    "delivery_address": {
+      "type": "text"
+    },
+    "storehouse": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::storehouse.storehouse"
+    },
+    "restocks": {
+      "displayName": "restocks",
+      "type": "component",
+      "repeatable": true,
+      "component": "invoice.restocks"
+    },
+    "total_quantity": {
+      "type": "integer"
+    },
+    "total_price": {
+      "type": "decimal"
+    },
+    "invoice_id": {
+      "type": "string"
+    }
+  }
+}

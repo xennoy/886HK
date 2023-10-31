@@ -79,6 +79,9 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::supplier.supplier"
+    },
+    "new_restock_price": {
+      "type": "decimal"
     }
   }
 }

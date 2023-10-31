@@ -12,7 +12,8 @@ module.exports = createCoreController('api::storehouse.storehouse', ({ strapi })
             name,
             contact_person,
             phone_no,
-            address,facebook
+            address,
+            facebook
         } = ctx.request.body;
         var input = {
             name: name,

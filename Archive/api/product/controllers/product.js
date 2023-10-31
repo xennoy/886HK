@@ -15,6 +15,7 @@ module.exports = createCoreController('api::product.product', ({ strapi }) => ({
             'name',
             'new_restock_date',
             'average_restock_price',
+            'new_restock_price',
             'new_lowest_price',
             'new_selling_price'
         ]
@@ -27,30 +28,35 @@ module.exports = createCoreController('api::product.product', ({ strapi }) => ({
         }
 
         ctx.query.filters = {}
-        if(!(ctx.query.label === undefined || ctx.query.label === null || ctx.query.label === '')) {
-            ctx.query.filters.labels = {id: parseInt(ctx.query.label)}
-        }
-        if(!(ctx.query.supplier === undefined || ctx.query.supplier === null || ctx.query.supplier === '')) {
-            ctx.query.filters.supplier = {id: parseInt(ctx.query.supplier)}
-        }
-        if(!(ctx.query.new_restock_date === undefined || ctx.query.new_restock_date === null || ctx.query.new_restock_date === '')) {
-            var currentDate = new Date(ctx.query.new_restock_date)
-            currentDate.setDate(currentDate.getDate() + 1)
-            let day = ("0" + currentDate.getDate()).slice(-2);
-            let month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
-            let year = currentDate.getFullYear();
-            var endDate = year + '-' + month + '-' + day
-            ctx.query.filters.new_restock_date = {
-                $gte: ctx.query.new_restock_date,
-                $lt: endDate
+        if(!(ctx.query.product_id === undefined || ctx.query.product_id === null || ctx.query.product_id === '')) {
+            ctx.query.filters.product_id = ctx.query.product_id
+        } else {
+            if(!(ctx.query.label === undefined || ctx.query.label === null || ctx.query.label === '')) {
+                ctx.query.filters.labels = {id: parseInt(ctx.query.label)}
+            }
+            if(!(ctx.query.supplier === undefined || ctx.query.supplier === null || ctx.query.supplier === '')) {
+                ctx.query.filters.supplier = {id: parseInt(ctx.query.supplier)}
+            }
+            if(!(ctx.query.new_restock_date === undefined || ctx.query.new_restock_date === null || ctx.query.new_restock_date === '')) {
+                var currentDate = new Date(ctx.query.new_restock_date)
+                currentDate.setDate(currentDate.getDate() + 1)
+                let day = ("0" + currentDate.getDate()).slice(-2);
+                let month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+                let year = currentDate.getFullYear();
+                var endDate = year + '-' + month + '-' + day
+                ctx.query.filters.new_restock_date = {
+                    $gte: ctx.query.new_restock_date,
+                    $lt: endDate
+                }
+            }
+            if(!(ctx.query.search === undefined || ctx.query.search === null || ctx.query.search === '')) {
+                ctx.query.filters.$or = [
+                    {product_id: {$contains: ctx.query.search}},
+                    {name: {$contains: ctx.query.search}},
+                ]
             }
         }
-        if(!(ctx.query.search === undefined || ctx.query.search === null || ctx.query.search === '')) {
-            ctx.query.filters.$or = [
-                {product_id: {$contains: ctx.query.search}},
-                {name: {$contains: ctx.query.search}},
-            ]
-        }
+        
 
         // console.log(ctx.query)
 
@@ -260,10 +266,18 @@ module.exports = createCoreController('api::product.product', ({ strapi }) => ({
         let {
             name,
             remarks,
+            new_lowest_price,
+            new_selling_price
         } = ctx.request.body;
         var input = {
             name: name,
             remarks: remarks
+        }
+        if(!(new_lowest_price === undefined || new_lowest_price === null)){
+            input.new_lowest_price = new_lowest_price
+        }
+        if(!(new_selling_price === undefined || new_selling_price === null)){
+            input.new_selling_price = new_selling_price
         }
         var result = await strapi.service('api::product.product').update( ctx.params.id, { data: input });
 
