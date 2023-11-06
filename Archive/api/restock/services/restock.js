@@ -8,6 +8,7 @@ const { createCoreService } = require('@strapi/strapi').factories;
 
 module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
     async createRestock(inputObject){
+        // console.log('In createRestock')
         let {
             restock_date,
             restock_price,
@@ -154,9 +155,9 @@ module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
         // }
         // ctx.response.status = returner.status
         // return returner
-        console.log(result)
+        // console.log(result)
         var returner = {
-            restock_id: result.data.id
+            restock_id: result.id
         }
         return returner
     }

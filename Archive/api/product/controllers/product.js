@@ -265,12 +265,14 @@ module.exports = createCoreController('api::product.product', ({ strapi }) => ({
     async update(ctx){
         let {
             name,
+            create_date,
             remarks,
             new_lowest_price,
             new_selling_price
         } = ctx.request.body;
         var input = {
             name: name,
+            create_date: create_date,
             remarks: remarks
         }
         if(!(new_lowest_price === undefined || new_lowest_price === null)){

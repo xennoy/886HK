@@ -113,7 +113,7 @@ module.exports = createCoreController('api::invoice.invoice', ({ strapi }) => ({
                 // lowest_price: getProduct.new_lowest_price,
                 // selling_price: getProduct.new_selling_price,
                 restock_distribute: restock_distribute,
-                product: getProduct.id,
+                product: getProduct.product_id,
                 supplier: supplier
             }
 
@@ -129,7 +129,11 @@ module.exports = createCoreController('api::invoice.invoice', ({ strapi }) => ({
                 inputRestock.selling_price = getProduct.new_selling_price
             }
 
+            // console.log('Start createRestock')
+            // console.log(inputRestock)
             var restockResult = await strapi.service('api::restock.restock').createRestock(inputRestock)
+            // console.log('End createRestock')
+            // console.log(restockResult)
 
             eachRestocks.restock = restockResult.restock_id
             total_quantity += total_quantity_of_variable
