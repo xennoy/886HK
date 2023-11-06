@@ -57,12 +57,17 @@ module.exports = createCoreController('api::member.member', ({ strapi }) => ({
             phone_no,
             sex,
             birthdate,
-            member_id,
+            // member_id,
             create_date,
             member_level,
             remarks,
             address
         } = ctx.request.body;
+
+        var findMemberCount = await strapi.db.query("api::member.member").count()
+        var member_id_back = ('0000000' + (findMemberCount + 1).toString()).slice(-7)
+        var member_id = '886' + member_id_back
+
         var input = {
             name: name,
             email: email,
@@ -98,7 +103,7 @@ module.exports = createCoreController('api::member.member', ({ strapi }) => ({
             phone_no,
             sex,
             birthdate,
-            member_id,
+            // member_id,
             create_date,
             member_level,
             remarks,
@@ -110,7 +115,7 @@ module.exports = createCoreController('api::member.member', ({ strapi }) => ({
             phone_no: phone_no,
             sex: sex,
             birthdate: birthdate,
-            member_id: member_id,
+            // member_id: member_id,
             create_date: create_date,
             member_level: member_level,
             remarks: remarks,
