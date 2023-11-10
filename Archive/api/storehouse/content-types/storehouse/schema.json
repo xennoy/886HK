@@ -39,6 +39,9 @@
     },
     "facebook": {
       "type": "string"
+    },
+    "remarks": {
+      "type": "text"
     }
   }
 }

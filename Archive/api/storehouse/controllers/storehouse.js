@@ -13,14 +13,16 @@ module.exports = createCoreController('api::storehouse.storehouse', ({ strapi })
             contact_person,
             phone_no,
             address,
-            facebook
+            facebook,
+            remarks
         } = ctx.request.body;
         var input = {
             name: name,
             contact_person: contact_person,
             phone_no: phone_no,
             address: address,
-            facebook: facebook
+            facebook: facebook,
+            remarks: remarks
         }
         var result = await strapi.service('api::storehouse.storehouse').create({ data: input });
 
@@ -50,14 +52,16 @@ module.exports = createCoreController('api::storehouse.storehouse', ({ strapi })
             contact_person,
             phone_no,
             address,
-            facebook
+            facebook,
+            remarks
         } = ctx.request.body;
         var input = {
             name: name,
             contact_person: contact_person,
             phone_no: phone_no,
             address: address,
-            facebook: facebook
+            facebook: facebook,
+            remarks: remarks
         }
         var result = await strapi.service('api::storehouse.storehouse').update( ctx.params.id, { data: input });
         var returner
