@@ -44,9 +44,7 @@ module.exports = createCoreController('api::invoice.invoice', ({ strapi }) => ({
             'invoice_address',
             'delivery_address',
             'total_quantity',
-            'total_price',
-            'lowest_price',
-            'selling_price'
+            'total_price'
         ]
         ctx.query.populate = {
             supplier: {
