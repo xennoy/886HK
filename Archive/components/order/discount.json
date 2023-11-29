@@ -12,6 +12,9 @@
     "discount_deduction": {
       "type": "decimal",
       "default": 0
+    },
+    "discount_shown": {
+      "type": "string"
     }
   }
 }
