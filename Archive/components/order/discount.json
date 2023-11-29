@@ -14,7 +14,7 @@
       "default": 0
     },
     "discount_shown": {
-      "type": "string"
+      "type": "decimal"
     }
   }
 }
