@@ -9,6 +9,7 @@ const { createCoreService } = require('@strapi/strapi').factories;
 module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
     async createRestock(inputObject){
         // console.log('In createRestock')
+        // console.log(inputObject)
         let {
             restock_date,
             restock_price,
@@ -82,7 +83,10 @@ module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
             selling_price: selling_price,
             restock_distribute: restock_distribute,
             product: findProduct.id,
-            supplier: supplier
+            // supplier: supplier
+        }
+        if(!(supplier === undefined || supplier === null || supplier === "")){
+            input.supplier = supplier
         }
         // console.log("check 4")
 
@@ -125,7 +129,10 @@ module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
             new_selling_price: selling_price,
             new_restock_price: restock_price,
             average_restock_price: average_restock_price,
-            supplier: supplier
+            // supplier: supplier
+        }
+        if(!(supplier === undefined || supplier === null || supplier === "")){
+            updateProduct.supplier = supplier
         }
 
         // console.log(input)

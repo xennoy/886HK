@@ -263,6 +263,9 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             paymentPrice += parseFloat(parseFloat(eachPaymentMethod.price).toFixed(2))
         }
 
+        order_total_price = parseFloat(order_total_price.toFixed(2))
+        order_total_profit = parseFloat(order_total_profit.toFixed(2))
+
         // console.log(order_total_price)
         // console.log(paymentPrice)
         if(order_total_price != paymentPrice){
