@@ -8,6 +8,7 @@ const { createCoreService } = require('@strapi/strapi').factories;
 
 module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
     async createRestock(inputObject){
+        // Get the variables
         // console.log('In createRestock')
         // console.log(inputObject)
         let {
@@ -21,7 +22,7 @@ module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
         } = inputObject;
 
         // console.log(ctx.request.body)
-        
+        // Scold you if the folowing is missing
         if(
             product === undefined || product === null || product === "" ||
             // supplier === undefined || supplier === null || supplier === "" ||
@@ -40,6 +41,7 @@ module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
         }
         // console.log("check 1")
 
+        // get product data for later use
         var findProduct = await strapi.db.query('api::product.product').findOne({ 
             where: {
                 product_id: product
@@ -48,6 +50,7 @@ module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
                 restocks: true
             }
         })
+        // Scold you if the product does not exist
         if(findProduct === undefined || findProduct === null){
             var returner = {
                 "status": 604,
@@ -59,11 +62,13 @@ module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
 
         // console.log("check 2")
 
+        // get the quantity of the restock product
         var checkQuantity = 0
         for(var eachDistribute of restock_distribute){
             checkQuantity += parseInt(eachDistribute.quantity)
         }
         // console.log(checkQuantity)
+        // Scold you if the lowest price is less than selling price (it just does not make sence)
         if(lowest_price > selling_price){
             // console.log("error 1")
             var returner = {
@@ -75,6 +80,7 @@ module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
         }
         // console.log("check 3")
 
+        // Ready for creating restock to Strapi
         var input = {
             restock_date: restock_date,
             quantity: checkQuantity,
@@ -90,6 +96,7 @@ module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
         }
         // console.log("check 4")
 
+        // setting data for updating stock list
         var updatedStockList = []
         for(var eachDistribute of restock_distribute){
             var findStock = await strapi.db.query('api::stock.stock').findOne({ 
@@ -109,6 +116,7 @@ module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
         }
         // console.log("check 5")
 
+        // Calculate the average restock price
         var average_restock_price
         var totalRestockPrice = parseFloat(parseFloat(restock_price).toFixed(2))
         var restockCount = 1
@@ -122,7 +130,7 @@ module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
         // console.log(average_restock_price)
         // console.log("check 6")
 
-
+        // Prepare for updating product data to Strapi
         var updateProduct = {
             new_restock_date: restock_date,
             new_lowest_price: lowest_price,
@@ -135,6 +143,7 @@ module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
             updateProduct.supplier = supplier
         }
 
+        // Create restock data, update stock and product data
         // console.log(input)
         var result = await strapi.service('api::restock.restock').create({ data: input });
 
@@ -163,6 +172,8 @@ module.exports = createCoreService('api::restock.restock', ({ strapi }) => ({
         // ctx.response.status = returner.status
         // return returner
         // console.log(result)
+
+        // Get the returning data
         var returner = {
             restock_id: result.id
         }

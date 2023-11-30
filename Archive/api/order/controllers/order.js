@@ -126,6 +126,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
     },
 
     async create(ctx){
+        // Get the variables
         let {
             member,
             status,
@@ -134,6 +135,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             payment_method,
         } = ctx.request.body;
 
+        // Scold you if the folowing is missing
         if(
             status === undefined || status === null || status === "" ||
             payment_method.length === 0 ||
@@ -147,10 +149,11 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             return returner
         }
 
+        // Get the cashier info (the current user)
         // console.log(ctx.state.user)
-
         var cashier = ctx.state.user
 
+        // Use the data of the cashier to find the storehouse he/she represent
         var findCashier = await strapi.db.query('plugin::users-permissions.user').findOne({ 
             where: {
                 id: ctx.state.user.id
@@ -159,9 +162,10 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 storehouse: true
             }
         })
-
         var storehouse = findCashier.storehouse
 
+        // Creating order id
+        // format: date + count, example: 2023010200001
         var currentDate = new Date()
         let day = ("0" + currentDate.getDate()).slice(-2);
         let month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
@@ -177,6 +181,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
         var orderIDCount = ("000000" + findOrderCount.toString()).slice(-6)
         var order_id = orderIDDate + orderIDCount
 
+        // getting member levels (if any)
         var member_level = undefined
         if(!(member === undefined || member === null || member === "")){
             var findMember = await strapi.db.query('api::member.member').findOne({ 
@@ -190,6 +195,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             member_level = findMember.member_level
         }
 
+        // Start calculating the total price and total profit of the order
         var order_total_price = 0.00
         var order_total_profit = 0.00
         // ordered_product = {
@@ -199,6 +205,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
         //     quantity,
         // }
         for(var eachOrderedProduct of ordered_product){
+            // Scold you if the folowing is missing
             if(
                 eachOrderedProduct.product === undefined || eachOrderedProduct.product === null || eachOrderedProduct.product === "" ||
                 eachOrderedProduct.variation === undefined || eachOrderedProduct.variation === null || eachOrderedProduct.variation === "" ||
@@ -212,6 +219,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 ctx.response.status = returner.status
                 return returner
             }
+            // Scold you if one of the product quantity is 0 (why do you put 0 item in a cart?)
             if(eachOrderedProduct.quantity === 0){
                 var returner = {
                     "status": 606,
@@ -221,6 +229,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 return returner
             }
 
+            // find the product and calculate the total price and total profit of this product, then add it in the total price and total profit of the order
             var findProduct = await strapi.db.query('api::product.product').findOne({ 
                 where: {
                     id: eachOrderedProduct.product
@@ -242,13 +251,16 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
         // console.log(order_total_price)
         // console.log(order_total_profit)
 
+        // Start calculating discount
         var order_discount = 0.00
         for(var eachDiscount of discount){
             order_discount += parseFloat(parseFloat(eachDiscount.discount_deduction).toFixed(2))
         }
 
+        // Calculating the deducted price and profit
         order_total_price -= parseFloat(parseFloat(order_discount).toFixed(2))
         order_total_profit -= parseFloat(parseFloat(order_discount).toFixed(2))
+        // Scold you if the deducted price is lower than 0 (you won't sell the product with a price of not only nothing, but also give money to the customers)
         if(order_total_price < 0){
             var returner = {
                 "status": 606,
@@ -258,14 +270,17 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             return returner
         }
 
+        // Get the payment method of the customers and it corresponding price
         var paymentPrice = 0
         for(var eachPaymentMethod of payment_method){
             paymentPrice += parseFloat(parseFloat(eachPaymentMethod.price).toFixed(2))
         }
 
+        // Confirm order_total_price and order_total_profit is a float in 2 decimal number
         order_total_price = parseFloat(order_total_price.toFixed(2))
         order_total_profit = parseFloat(order_total_profit.toFixed(2))
 
+        // Scold you if the payment price is not equal to the total price (pay too less or pay too much)
         // console.log(order_total_price)
         // console.log(paymentPrice)
         if(order_total_price != paymentPrice){
@@ -277,6 +292,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             return returner
         }
 
+        // Prepare saving to Strapi
         var input = {
             order_id: order_id,
             order_date: currentDate,
@@ -324,6 +340,8 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
 
             changeList.push(change)
         }
+
+        // Save to Strapi
         // console.log(input)
         // console.log(changeList)
         var result = await strapi.service('api::order.order').create({ data: input });
@@ -348,6 +366,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
         // ctx.response.status = returner.status
         // return returner
 
+        // Get the returning data
         var findResult = await strapi.db.query('api::order.order').findOne({ 
             where: {
                 id: result.id
@@ -476,12 +495,14 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
     },
 
     async refund(ctx){
+        // Get the variables
         let {
             refunded_info,
             refunded_remarks,
             storehouse
         } = ctx.request.body;
 
+        // Find the order from Strapi
         var findOrder = await strapi.db.query('api::order.order').findOne({ 
             where: {
                 id: ctx.params.id,
@@ -495,9 +516,9 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 }
             }
         })
-
         var ordered_product = findOrder.ordered_product
 
+        // Start calculating refunded price and profit
         var total_refunded_price = 0
         var total_refunded_profit = 0
         var isRefundedAll = true
@@ -507,7 +528,10 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 // console.log(eachProduct)
                 // console.log(eachProduct.product)
                 if(eachData.product === eachProduct.product.id && eachData.variation === eachProduct.variation.id){
+                    // Calculation
                     eachProduct.refunded_quantity += eachData.refunded_quantity
+                    
+                    // Scold you if the quantity of refunded product is larger than the product it originally have (how can you refund 2 item if I only sell 1)
                     if(eachProduct.refunded_quantity > eachProduct.quantity){
                         var returner = {
                             "status": 606,
@@ -516,6 +540,8 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                         ctx.response.status = returner.status
                         return returner
                     }
+
+                    // Calculation
                     eachProduct.profit -= eachData.refunded_price
                     eachProduct.refunded_price += eachData.refunded_price
                     total_refunded_price += eachData.refunded_price
@@ -525,10 +551,12 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             }
         }
 
+        // Calculate the total refunded price and profit
         // findOrder.total_price -= total_refunded_price
-        findOrder.total_refunded_price += eachData.refunded_price
+        findOrder.total_refunded_price += total_refunded_price
         findOrder.total_profit -= total_refunded_profit
 
+        // Set the status of the order, refunded or partially_refunded
         for(var eachProduct of ordered_product){
             if(eachProduct.refunded_quantity < eachProduct.quantity){
                 isRefundedAll = false
@@ -541,6 +569,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             findOrder.status = "partially_refunded"
         }
 
+        // Prepare saving to Strapi
         var input = {
             ordered_product: ordered_product,
             refunded_remarks: refunded_remarks,
@@ -548,8 +577,10 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             total_profit: findOrder.total_profit,
             status: findOrder.status
         }
+        // Save in order
         var result = await strapi.service('api::order.order').update( ctx.params.id, { data: input });
 
+        // Save in stock
         for(var eachData of refunded_info){
             var findStock = await strapi.db.query('api::stock.stock').findOne({ 
                 where: {
@@ -565,6 +596,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             var updateStock = await strapi.service('api::stock.stock').update( findStock.id, { data: updateStockInput });
         }
 
+        // Get the returning data
         var returner
         if (!(result === null || result === undefined)) {
             returner = {

@@ -74,6 +74,7 @@ module.exports = createCoreController('api::invoice.invoice', ({ strapi }) => ({
         return { data, meta }
     },
     async create(ctx){
+        // Get the variables
         let {
             invoice_id,
             date,
@@ -84,9 +85,11 @@ module.exports = createCoreController('api::invoice.invoice', ({ strapi }) => ({
             restocks, // {product, variations: {variation, quantity}, unit_price, discount, net_price, total_amount, lowest_price, selling_price}
         } = ctx.request.body;
 
+        // Start processing
         var total_quantity = 0
         var total_price = 0.00
         for(var eachRestocks of restocks){
+            // get product for id and other data
             var getProduct = await strapi.db.query('api::product.product').findOne({
                 where: {
                     id: eachRestocks.product
@@ -95,6 +98,7 @@ module.exports = createCoreController('api::invoice.invoice', ({ strapi }) => ({
 
             var total_quantity_of_variable = 0
             var restock_distribute = []
+            // Get variation data
             for(var eachVariations of eachRestocks.variations){
                 restock_distribute.push({
                     storehouse: storehouse,
@@ -104,6 +108,7 @@ module.exports = createCoreController('api::invoice.invoice', ({ strapi }) => ({
                 total_quantity_of_variable += eachVariations.quantity
             }
 
+            // Ready for creating restock to Strapi
             var inputRestock = {
                 restock_date: date,
                 quantity: total_quantity_of_variable,
@@ -127,6 +132,7 @@ module.exports = createCoreController('api::invoice.invoice', ({ strapi }) => ({
                 inputRestock.selling_price = getProduct.new_selling_price
             }
 
+            // Create restock data (see createRestock in restock/services/restock.js)
             // console.log('Start createRestock')
             // console.log(inputRestock)
             var restockResult = await strapi.service('api::restock.restock').createRestock(inputRestock)
@@ -137,6 +143,8 @@ module.exports = createCoreController('api::invoice.invoice', ({ strapi }) => ({
             total_quantity += total_quantity_of_variable
             total_price += eachRestocks.total_amount
         }
+
+        // Ready for creating invoice to Strapi
         var input = {
             invoice_id: invoice_id,
             date: date,
@@ -148,9 +156,10 @@ module.exports = createCoreController('api::invoice.invoice', ({ strapi }) => ({
             total_quantity: total_quantity,
             total_price: total_price,
         }
-
+        // Create invoice data
         var result = await strapi.service('api::invoice.invoice').create({ data: input })
 
+        // Get the returning data
         var returner
         if (!(result === null || result === undefined)) {
             returner = {
